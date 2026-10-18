@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Evently | Discover & Register for Events</title>
+
+    <meta name="description"
+          content="Discover exciting events, register instantly and manage your bookings with Evently.">
+
+    <link rel="stylesheet" href="/style.css">
+
+    <script src="/script.js" defer></script>
+</head>
+
+<body>
+
+<!-- ================= HEADER ================= -->
+
+<header class="site-header">
+
+    <div class="container header-content">
+
+        <a href="/" class="logo">
+            <span class="logo-icon">✦</span>
+            Evently<span class="logo-dot">.</span>
+        </a>
+
+        <nav class="main-nav" aria-label="Main navigation">
+
+            <button
+                    class="nav-link active"
+                    data-view="events"
+                    type="button">
+                Explore Events
+            </button>
+
+            <button
+                    class="nav-link"
+                    data-view="registrations"
+                    type="button">
+                My Registrations
+            </button>
+
+        </nav>
+
+        <div class="auth-controls">
+
+            <!-- Visible when logged out -->
+            <div id="guest-actions" class="guest-actions">
+
+                <button
+                        id="open-login-btn"
+                        class="btn btn-outline"
+                        type="button">
+                    Log In
+                </button>
+
+                <button
+                        id="open-register-btn"
+                        class="btn btn-primary"
+                        type="button">
+                    Sign Up
+                </button>
+
+            </div>
+
+            <!-- Visible when logged in -->
+            <div id="user-actions" class="user-actions" hidden>
+
+                <span id="welcome-text"></span>
+
+                <button
+                        id="logout-btn"
+                        class="btn btn-outline"
+                        type="button">
+                    Log Out
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<!-- ================= MAIN ================= -->
+
+<main>
+
+
+    <!-- ================= EVENTS VIEW ================= -->
+
+    <section id="events-view" class="view">
+
+        <!-- HERO -->
+
+        <div class="hero">
+
+            <div class="container hero-content">
+
+                <span class="hero-badge">
+                    ✦ Your next experience starts here
+                </span>
+
+                <h1>
+                    Discover Events.<br>
+                    <span class="gradient-text">
+                        Create Memories.
+                    </span>
+                </h1>
+
+                <p class="hero-description">
+                    Explore amazing conferences, workshops,
+                    meetups and experiences.
+                    Find your next event and reserve your spot
+                    in just a few clicks.
+                </p>
+
+                <a href="#events-section" class="btn btn-primary btn-large">
+                    Explore Events →
+                </a>
+
+                <!-- Statistics -->
+
+                <div class="hero-stats">
+
+                    <div class="stat-item">
+                        <strong id="event-count">—</strong>
+                        <span>Available Events</span>
+                    </div>
+
+                    <div class="stat-divider"></div>
+
+                    <div class="stat-item">
+                        <strong id="spot-count">—</strong>
+                        <span>Open Spots</span>
+                    </div>
+
+                    <div class="stat-divider"></div>
+
+                    <div class="stat-item">
+                        <strong>100%</strong>
+                        <span>Easy Registration</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- EVENTS SECTION -->
+
+        <section id="events-section" class="events-section">
+
+            <div class="container">
+
+                <div class="section-header">
+
+                    <div>
+
+                        <span class="section-label">
+                            EXPLORE
+                        </span>
+
+                        <h2>Upcoming Events</h2>
+
+                        <p>
+                            Find something exciting and
+                            reserve your place today.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Search -->
+
+                <div class="search-container">
+
+                    <label for="event-search" class="visually-hidden">
+                        Search events
+                    </label>
+
+                    <input
+                            type="search"
+                            id="event-search"
+                            placeholder="Search events, locations or topics..."
+                            autocomplete="off">
+
+                </div>
+
+
+                <!-- Events will be loaded from the API -->
+
+                <div id="events-grid" class="events-grid">
+
+                    <p class="loading-message">
+                        Loading events...
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </section>
+
+
+    <!-- ================= MY REGISTRATIONS ================= -->
+
+    <section id="registrations-view"
+             class="view registrations-section"
+             hidden>
+
+        <div class="container">
+
+            <div class="section-header">
+
+                <div>
+
+                    <span class="section-label">
+                        YOUR DASHBOARD
+                    </span>
+
+                    <h2>My Registrations</h2>
+
+                    <p>
+                        View and manage your upcoming events.
+                    </p>
+
+                </div>
+
+                <button
+                        class="btn btn-outline"
+                        data-view="events"
+                        type="button">
+                    ← Explore Events
+                </button>
+
+            </div>
+
+
+            <!-- Registrations loaded from the API -->
+
+            <div id="registrations-grid" class="registrations-grid">
+
+                <p class="loading-message">
+                    Loading registrations...
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- ================= AUTHENTICATION MODAL ================= -->
+
+<div id="auth-modal"
+     class="modal-overlay"
+     hidden>
+
+    <div class="modal auth-modal"
+         role="dialog"
+         aria-modal="true"
+         aria-labelledby="auth-modal-title">
+
+        <button
+                id="close-auth-modal"
+                class="modal-close"
+                type="button"
+                aria-label="Close">
+            &times;
+        </button>
+
+
+        <div class="modal-header">
+
+            <span class="modal-icon">✦</span>
+
+            <h2 id="auth-modal-title">
+                Welcome Back
+            </h2>
+
+            <p id="auth-modal-description">
+                Sign in to manage your events.
+            </p>
+
+        </div>
+
+
+        <!-- Switch between Login and Register -->
+
+        <div class="auth-tabs">
+
+            <button
+                    id="show-login"
+                    class="auth-tab active"
+                    type="button">
+                Log In
+            </button>
+
+            <button
+                    id="show-register"
+                    class="auth-tab"
+                    type="button">
+                Sign Up
+            </button>
+
+        </div>
+
+
+        <!-- LOGIN FORM -->
+
+        <form id="login-form" class="auth-form">
+
+            <div class="form-group">
+
+                <label for="login-email">
+                    Email Address
+                </label>
+
+                <input
+                        type="email"
+                        id="login-email"
+                        name="email"
+                        placeholder="you@example.com"
+                        autocomplete="email"
+                        required>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="login-password">
+                    Password
+                </label>
+
+                <input
+                        type="password"
+                        id="login-password"
+                        name="password"
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                        required>
+
+            </div>
+
+
+            <button
+                    type="submit"
+                    class="btn btn-primary btn-full">
+                Log In
+            </button>
+
+        </form>
+
+
+        <!-- REGISTER FORM -->
+
+        <form id="register-form"
+              class="auth-form"
+              hidden>
+
+            <div class="form-group">
+
+                <label for="register-name">
+                    Full Name
+                </label>
+
+                <input
+                        type="text"
+                        id="register-name"
+                        name="name"
+                        placeholder="Your full name"
+                        autocomplete="name"
+                        minlength="2"
+                        maxlength="100"
+                        required>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="register-email">
+                    Email Address
+                </label>
+
+                <input
+                        type="email"
+                        id="register-email"
+                        name="email"
+                        placeholder="you@example.com"
+                        autocomplete="email"
+                        required>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="register-password">
+                    Password
+                </label>
+
+                <input
+                        type="password"
+                        id="register-password"
+                        name="password"
+                        placeholder="At least 8 characters"
+                        autocomplete="new-password"
+                        minlength="8"
+                        required>
+
+            </div>
+
+
+            <button
+                    type="submit"
+                    class="btn btn-primary btn-full">
+                Create Account
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- ================= EVENT DETAILS MODAL ================= -->
+
+<div id="event-modal"
+     class="modal-overlay"
+     hidden>
+
+    <div class="modal event-modal"
+         role="dialog"
+         aria-modal="true"
+         aria-label="Event details">
+
+        <button
+                id="close-event-modal"
+                class="modal-close"
+                type="button"
+                aria-label="Close">
+            &times;
+        </button>
+
+
+        <!-- Event details loaded dynamically -->
+
+        <div id="event-details"></div>
+
+
+        <div class="modal-actions">
+
+            <button
+                    id="detail-register-btn"
+                    class="btn btn-primary btn-full"
+                    type="button">
+                Register for Event
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ================= NOTIFICATIONS ================= -->
+
+<div id="toast"
+     class="toast"
+     role="status"
+     aria-live="polite"
+     hidden>
+</div>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer class="site-footer">
+
+    <div class="container footer-content">
+
+        <div class="footer-brand">
+
+            <span class="footer-logo">
+                ✦ Evently.
+            </span>
+
+            <p>
+                Discover. Connect. Experience.
+            </p>
+
+        </div>
+
+        <div class="footer-info">
+
+            <p>
+                Built for the CodeAlpha Backend Development Internship
+            </p>
+
+            <p>
+                Developed by Wajeed Abid © 2026
+            </p>
+
+        </div>
+
+    </div>
+
+</footer>
+
+</body>
+</html>
